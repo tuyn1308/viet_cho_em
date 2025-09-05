@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat với Telegram Bot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e8f5e9, #dcedc8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+    }
+    h2 {
+      margin: 20px;
+      color: #2e7d32;
+      font-weight: 600;
+    }
+
+    /* Chat box */
+    .chat-container {
+      flex: 1;
+      width: 100%;
+      max-width: 500px;
+      display: none; /* ẩn cho đến khi login */
+      flex-direction: column;
+      border-radius: 25px;
+      background: #ffffff;
+      overflow: hidden;
+      margin: 10px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    .messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #f9fdf9;
+    }
+    .msg {
+      max-width: 75%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      word-wrap: break-word;
+      font-size: 14px;
+      line-height: 1.4;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      position: relative;
+    }
+    .msg.user {
+      align-self: flex-end;
+      background: #66bb6a;
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+    .msg.bot {
+      align-self: flex-start;
+      background: #e0f2f1;
+      color: #333;
+      border-bottom-left-radius: 4px;
+    }
+    .msg strong {
+      font-size: 13px;
+      display: block;
+      margin-bottom: 3px;
+      opacity: 0.9;
+    }
+    .msg small {
+      display: block;
+      font-size: 11px;
+      color: #555;
+      margin-top: 5px;
+      text-align: right;
+      opacity: 0.7;
+    }
+
+    /* Input */
+    .input-area {
+      display: flex;
+      border-top: 1px solid #eee;
+      background: #fafafa;
+      padding: 10px;
+      gap: 8px;
+    }
+    .input-area input {
+      flex: 1;
+      border: 1px solid #ccc;
+      padding: 12px 14px;
+      font-size: 14px;
+      border-radius: 25px;
+      outline: none;
+      transition: 0.2s;
+    }
+    .input-area input:focus {
+      border-color: #81c784;
+      box-shadow: 0 0 0 3px rgba(129,199,132,0.3);
+    }
+    .input-area button {
+      background: #4caf50;
+      border: none;
+      padding: 12px 18px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      border-radius: 25px;
+      transition: 0.2s;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+    .input-area button:hover {
+      background: #43a047;
+      transform: translateY(-1px);
+    }
+
+    /* Login box */
+    .login-container {
+      margin-top: 100px;
+      padding: 25px;
+      border-radius: 20px;
+      background: #ffffff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 280px;
+    }
+    .login-container h3 {
+      margin-bottom: 15px;
+      color: #2e7d32;
+    }
+    .login-container input {
+      display: block;
+      margin: 10px auto;
+      padding: 12px;
+      width: 90%;
+      border-radius: 15px;
+      border: 1px solid #ccc;
+      outline: none;
+      transition: 0.2s;
+    }
+    .login-container input:focus {
+      border-color: #81c784;
+      box-shadow: 0 0 0 3px rgba(129,199,132,0.3);
+    }
+    .login-container button {
+      margin-top: 10px;
+      padding: 12px 25px;
+      background: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.2s;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+    .login-container button:hover {
+      background: #43a047;
+      transform: translateY(-1px);
+    }
+
+      /* Spinner */
+  .spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #4caf50;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+    @media (max-width: 600px) {
+      .chat-container {
+        max-width: 100%;
+        border-radius: 0;
+        height: 100%;
+      }
+      .login-container {
+        margin-top: 50px;
+        width: 90%;
+      }
+    }
+  </style>
+  <style>
+    /* Thông báo tin nhắn mới */
+    #newMsgNotice {
+      display: none;
+      position: absolute;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #43a047;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      animation: slideUp 0.3s ease;
+    }
+    #newMsgNotice:hover {
+      background: #2e7d32;
+    }
+    @keyframes slideUp {
+      from { transform: translate(-50%, 20px); opacity: 0; }
+      to   { transform: translate(-50%, 0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h2>🌿</h2>
+
+  <!-- Form login -->
+  <div class="login-container" id="loginBox">
+    <h3>Đăng nhập</h3>
+    <input type="text" id="username" placeholder="Tên người dùng">
+    <input type="password" id="password" placeholder="Mật khẩu">
+    <button onclick="login()">Đăng nhập</button>
+  </div>
+
+  <!-- Chat box -->
+  <div class="chat-container" id="chatBox">
+    <div class="messages" id="messages"></div>
+    <div id="newMsgNotice" onclick="scrollToBottom()">⬇️ Có tin nhắn mới</div>
+    <div class="input-area">
+      <input type="text" id="msgInput" placeholder="Nhập tin nhắn...">
+      <button onclick="sendMessage()">Gửi</button>
+    </div>
+  </div>    
+
+  <script>
+    // Config
+    const BOT_TOKEN = "8157868741:AAFKOinuWBa2l9Z2MgGX-kY4Ujiw-OhwR74";
+    const CHAT_ID = "5178075273";
+    const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
+    const SHEET_API = "https://script.google.com/macros/s/AKfycbyY9gaO40LZt3MYAfFPwiSJKISp35144AkJsoN4y83ScwDcmNTXF4uxf4iGw5FNYPwm/exec";
+
+    const messagesDiv = document.getElementById("messages");
+    const msgInput = document.getElementById("msgInput");
+    const loginBox = document.getElementById("loginBox");
+    const chatBox = document.getElementById("chatBox");
+
+    let visitorIP = null;
+    let username = null;
+
+    // Thêm tin nhắn vào giao diện
+    function addMessage(text, sender, time, user) {
+      const div = document.createElement("div");
+      div.className = "msg " + sender;
+      div.innerHTML = `
+        <strong>${user}</strong>
+        <div>${text}</div>
+        <small>${time}</small>
+      `;
+      messagesDiv.appendChild(div);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    // Gửi tin nhắn
+    async function sendMessage() {
+      const text = msgInput.value.trim();
+      if (!text) return;
+      msgInput.value = "";
+
+      const now = new Date().toLocaleString("vi-VN");
+      addMessage(text, "user", now, username);
+
+      // Gửi tới Telegram kèm IP
+      const teleText = `[${username}] (${visitorIP}) 💬: ${text}`;
+      await fetch(`${API_URL}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(teleText)}`);
+
+
+      // Tạo raw JSON giả như Telegram
+      const fakePayload = {
+        update_id: Date.now(),
+        message: {
+          message_id: Date.now(),
+          from: {
+            id: null,
+            is_bot: false,
+            first_name: username,
+            username: username,
+            language_code: "vi"
+          },
+          chat: {
+            id: null,
+            first_name: username,
+            username: username,
+            type: "private"
+          },
+          date: Math.floor(Date.now()/1000),
+          text: text
+        }
+      };
+
+      // Lưu vào Google Sheet
+      await fetch(SHEET_API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(fakePayload)
+      });
+      
+    }
+
+    const newMsgNotice = document.getElementById("newMsgNotice");
+
+function addMessage(text, sender, time, user) {
+  const div = document.createElement("div");
+  div.className = "msg " + sender;
+  div.innerHTML = `
+    <strong>${user}</strong>
+    <div>${text}</div>
+    <small>${time}</small>
+  `;
+  messagesDiv.appendChild(div);
+
+  const nearBottom =
+    messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - 50;
+
+  if (nearBottom) {
+    scrollToBottom();
+  } else {
+    newMsgNotice.style.display = "block";
+  }
+}
+
+function scrollToBottom() {
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  newMsgNotice.style.display = "none";
+}
+
+
+    // Load lịch sử từ Google Sheet
+    // Load lịch sử từ Google Sheet
+    let firstLoad = true;
+    let lastTimestamp = null; // nhớ tin nhắn cuối cùng đã có
+    
+    async function loadMessages() {
+      try {
+        if (firstLoad) {
+          messagesDiv.innerHTML = `
+            <div style="text-align:center; margin-top:20px; color:#555;">
+              <div class="spinner" style="margin:0 auto;"></div>
+              <div style="margin-top:10px;">Đợi tí, tin nhắn đang load...</div>
+            </div>
+          `;
+        }
+    
+        const res = await fetch(SHEET_API);
+        const data = await res.json();
+    
+        if (firstLoad) {
+          messagesDiv.innerHTML = ""; // xoá spinner
+          data.forEach(row => {
+            const timestamp = row[0];
+            const user = row[1];
+            const message = row[2];
+    
+            addMessage(
+              message,
+              user === username ? "user" : "bot",
+              new Date(timestamp).toLocaleString("vi-VN"),
+              user
+            );
+            lastTimestamp = timestamp; // cập nhật timestamp mới nhất
+          });
+          firstLoad = false;
+        } else {
+          // Chỉ thêm tin nhắn mới
+          data.forEach(row => {
+            const timestamp = row[0];
+            if (!lastTimestamp || new Date(timestamp) > new Date(lastTimestamp)) {
+              const user = row[1];
+              const message = row[2];
+              addMessage(
+                message,
+                user === username ? "user" : "bot",
+                new Date(timestamp).toLocaleString("vi-VN"),
+                user
+              );
+              lastTimestamp = timestamp;
+            }
+          });
+        }
+      } catch (err) {
+        console.error("Load messages error:", err);
+        if (firstLoad) {
+          messagesDiv.innerHTML = "<p style='text-align:center;color:#888;'>Lỗi tải tin nhắn</p>";
+        }
+      }
+    }
+      
+
+    // Lấy IP client
+    async function getIP() {
+      try {
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        visitorIP = data.ip;
+        return visitorIP;
+      } catch (e) {
+        console.error("Không lấy được IP:", e);
+        return "unknown";
+      }
+    }
+
+    // Login
+    function login() {
+      const inputUser = document.getElementById("username").value.trim();
+      const inputPass = document.getElementById("password").value.trim();
+      if (inputPass !== "130805" || !inputUser) {
+        alert("Sai mật khẩu hoặc thiếu tên!");
+        return;
+      }
+      username = inputUser;
+      localStorage.setItem("chat_username", username);
+
+      loginBox.style.display = "none";
+      chatBox.style.display = "flex";
+
+      getIP();
+      loadMessages();
+      setInterval(loadMessages, 10000);
+    }
+
+
+    // Prefill username nếu có
+    window.onload = () => {
+      const savedUser = localStorage.getItem("chat_username");
+      if (savedUser) {
+        document.getElementById("username").value = savedUser;
+      }
+    };
+  </script>
+</body>
+</html>
