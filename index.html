@@ -400,6 +400,7 @@ function scrollToBottom() {
     }
       
 
+
     // Lấy IP client
     async function getIP() {
       try {
@@ -412,6 +413,31 @@ function scrollToBottom() {
         return "unknown";
       }
     }
+
+    // Gửi log IP lên Telegram
+    async function notifyAccess(ip, msg = "đang truy cập web") {
+      const text = `📢 Có người ${msg}\n🌐 IP: ${ip}\n🕒 ${new Date().toLocaleString("vi-VN")}`;
+      await fetch(`${API_URL}/sendMessage`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ chat_id: CHAT_ID, text })
+      });
+    }
+
+    // Khi người dùng mở web
+    async function onVisitorEnter() {
+      const ip = await getIP();
+      notifyAccess(ip, "vừa vào web");
+
+      // Sau đó cứ 1 phút ping lại
+      setInterval(() => {
+        notifyAccess(ip, "vẫn đang online");
+      }, 60000);
+    }
+
+    // Gọi khi load trang
+    onVisitorEnter();
+
 
     // Login
     function login() {
