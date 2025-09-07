@@ -240,43 +240,56 @@
     const BOT_TOKEN = "8157868741:AAFKOinuWBa2l9Z2MgGX-kY4Ujiw-OhwR74";
     const CHAT_ID = "5178075273";
     const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
-    const SHEET_API = "https://script.google.com/macros/s/AKfycbyY9gaO40LZt3MYAfFPwiSJKISp35144AkJsoN4y83ScwDcmNTXF4uxf4iGw5FNYPwm/exec";
-
+    const SHEET_API = "https://script.google.com/macros/s/AKfycbyY9gaO40LZt3MYAfFPwiSJKISp35144AkJsoN4y83ScwDcmNTXF4uxf4iGw5FNYPwm/exec"
+  
     const messagesDiv = document.getElementById("messages");
     const msgInput = document.getElementById("msgInput");
     const loginBox = document.getElementById("loginBox");
     const chatBox = document.getElementById("chatBox");
-
+  
     let visitorIP = null;
     let username = null;
-
-    // Thêm tin nhắn vào giao diện
-    function addMessage(text, sender, time, user) {
+  
+    // single addMessage with data-ts and optional auto-scrolling
+    function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
       const div = document.createElement("div");
       div.className = "msg " + sender;
+      // store timestamp as milliseconds string for robust matching
+      const tsMs = (new Date(rawTimestamp)).getTime() || Date.now();
+      div.dataset.ts = String(tsMs);
       div.innerHTML = `
         <strong>${user}</strong>
         <div>${text}</div>
         <small>${time}</small>
       `;
       messagesDiv.appendChild(div);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  
+      if (!auto) return;
+  
+      const nearBottom =
+        messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - 50;
+  
+      if (nearBottom) {
+        scrollToBottom();
+      } else {
+        document.getElementById("newMsgNotice").style.display = "block";
+      }
     }
-
+  
     // Gửi tin nhắn
     async function sendMessage() {
       const text = msgInput.value.trim();
       if (!text) return;
       msgInput.value = "";
-
+  
       const now = new Date().toLocaleString("vi-VN");
-      addMessage(text, "user", now, username);
-
+      const rawNow = new Date().toISOString();
+      addMessage(text, "user", now, username, rawNow);
+  
       // Gửi tới Telegram kèm IP
       const teleText = `[${username}] (${visitorIP}) 💬: ${text}`;
       await fetch(`${API_URL}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(teleText)}`);
-
-
+  
       // Tạo raw JSON giả như Telegram
       const fakePayload = {
         update_id: Date.now(),
@@ -299,7 +312,7 @@
           text: text
         }
       };
-
+  
       // Lưu vào Google Sheet
       await fetch(SHEET_API, {
         method: "POST",
@@ -308,42 +321,19 @@
         },
         body: JSON.stringify(fakePayload)
       });
-      
     }
-
+  
     const newMsgNotice = document.getElementById("newMsgNotice");
-
-function addMessage(text, sender, time, user) {
-  const div = document.createElement("div");
-  div.className = "msg " + sender;
-  div.innerHTML = `
-    <strong>${user}</strong>
-    <div>${text}</div>
-    <small>${time}</small>
-  `;
-  messagesDiv.appendChild(div);
-
-  const nearBottom =
-    messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - 50;
-
-  if (nearBottom) {
-    scrollToBottom();
-  } else {
-    newMsgNotice.style.display = "block";
-  }
-}
-
-function scrollToBottom() {
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-  newMsgNotice.style.display = "none";
-}
-
-
-    // Load lịch sử từ Google Sheet
+  
+    function scrollToBottom() {
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      newMsgNotice.style.display = "none";
+    }
+  
     // Load lịch sử từ Google Sheet
     let firstLoad = true;
     let lastTimestamp = null; // nhớ tin nhắn cuối cùng đã có
-    
+  
     async function loadMessages() {
       try {
         if (firstLoad) {
@@ -354,28 +344,46 @@ function scrollToBottom() {
             </div>
           `;
         }
-    
+  
         const res = await fetch(SHEET_API);
         const data = await res.json();
-    
+  
         if (firstLoad) {
           messagesDiv.innerHTML = ""; // xoá spinner
+  
+          // add all messages WITHOUT auto scroll
           data.forEach(row => {
             const timestamp = row[0];
             const user = row[1];
             const message = row[2];
-    
+  
             addMessage(
               message,
               user === username ? "user" : "bot",
               new Date(timestamp).toLocaleString("vi-VN"),
-              user
+              user,
+              timestamp,
+              false
             );
-            lastTimestamp = timestamp; // cập nhật timestamp mới nhất
+            lastTimestamp = timestamp;
           });
+  
+          // Restore vị trí đã đọc từ localStorage
+          const savedTs = localStorage.getItem("last_view_timestamp");
+          if (savedTs) {
+            const target = findClosestMessageByTs(Number(savedTs));
+            if (target) {
+              scrollMessageIntoView(target);
+            } else {
+              scrollToBottom();
+            }
+          } else {
+            scrollToBottom();
+          }
+  
           firstLoad = false;
         } else {
-          // Chỉ thêm tin nhắn mới
+          // Chỉ thêm tin nhắn mới, with auto behavior
           data.forEach(row => {
             const timestamp = row[0];
             if (!lastTimestamp || new Date(timestamp) > new Date(lastTimestamp)) {
@@ -385,11 +393,19 @@ function scrollToBottom() {
                 message,
                 user === username ? "user" : "bot",
                 new Date(timestamp).toLocaleString("vi-VN"),
-                user
+                user,
+                timestamp,
+                true
               );
               lastTimestamp = timestamp;
             }
           });
+        }
+  
+        // update lastTimestamp for potential other uses
+        if (lastTimestamp) {
+          // optionally store last available timestamp (not the same as last_view_timestamp)
+          localStorage.setItem("last_available_timestamp", (new Date(lastTimestamp)).getTime());
         }
       } catch (err) {
         console.error("Load messages error:", err);
@@ -398,9 +414,34 @@ function scrollToBottom() {
         }
       }
     }
-      
-
-
+  
+    // tìm phần tử .msg có data-ts gần nhất với savedTs (ms)
+    function findClosestMessageByTs(savedTs) {
+      if (!savedTs) return null;
+      const msgs = Array.from(messagesDiv.querySelectorAll(".msg"));
+      if (!msgs.length) return null;
+      let closest = null;
+      let minDiff = Infinity;
+      msgs.forEach(m => {
+        const ts = Number(m.dataset.ts);
+        if (!isFinite(ts)) return;
+        const diff = Math.abs(ts - savedTs);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closest = m;
+        }
+      });
+      return closest;
+    }
+  
+    // cuộn sao cho tin nhắn target nằm ở giữa vùng hiển thị
+    function scrollMessageIntoView(el) {
+      if (!el) return;
+      const offset = el.offsetTop - messagesDiv.clientHeight / 2 + el.clientHeight / 2;
+      messagesDiv.scrollTo({ top: Math.max(0, offset), behavior: "smooth" });
+      newMsgNotice.style.display = "none";
+    }
+  
     // Lấy IP client
     async function getIP() {
       try {
@@ -413,32 +454,41 @@ function scrollToBottom() {
         return "unknown";
       }
     }
-
-    // Gửi log IP lên Telegram
+  
+    // Gửi log IP lên Telegram (với fallback đọc localStorage nếu username không có)
     async function notifyAccess(ip, msg = "đang truy cập web") {
-      const text = `📢 Có người ${msg}\n🌐 IP: ${ip}\n🕒 ${new Date().toLocaleString("vi-VN")}`;
+      let user = "unknown";
+      if (username && username.trim() !== "") {
+        user = username;
+      } else {
+        const savedUser = localStorage.getItem("chat_username");
+        if (savedUser && savedUser.trim() !== "") {
+          user = savedUser;
+        }
+      }
+  
+      const text = `📢 ${user} ${msg}\n🌐 IP: ${ip}\n🕒 ${new Date().toLocaleString("vi-VN")}`;
       await fetch(`${API_URL}/sendMessage`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ chat_id: CHAT_ID, text })
       });
     }
-
+  
     // Khi người dùng mở web
     async function onVisitorEnter() {
       const ip = await getIP();
       notifyAccess(ip, "vừa vào web");
-
+  
       // Sau đó cứ 1 phút ping lại
       setInterval(() => {
         notifyAccess(ip, "vẫn đang online");
       }, 60000);
     }
-
+  
     // Gọi khi load trang
     onVisitorEnter();
-
-
+  
     // Login
     function login() {
       const inputUser = document.getElementById("username").value.trim();
@@ -449,23 +499,64 @@ function scrollToBottom() {
       }
       username = inputUser;
       localStorage.setItem("chat_username", username);
-
+  
       loginBox.style.display = "none";
       chatBox.style.display = "flex";
-
+  
       getIP();
       loadMessages();
       setInterval(loadMessages, 10000);
     }
-
-
+  
     // Prefill username nếu có
     window.onload = () => {
       const savedUser = localStorage.getItem("chat_username");
       if (savedUser) {
         document.getElementById("username").value = savedUser;
+        // Nếu muốn: khởi đặt username biến toàn cục từ localStorage (nên để null cho tới khi thật sự login)
+        // username = savedUser;
       }
     };
+  
+    // --- LƯU vị trí đọc hiện tại khi user cuộn (debounced) ---
+    let saveTimer = null;
+    messagesDiv.addEventListener('scroll', () => {
+      if (saveTimer) clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        saveCurrentViewedTimestamp();
+      }, 500); // lưu 500ms sau khi ngừng scroll
+    });
+  
+    function saveCurrentViewedTimestamp() {
+      const msgs = Array.from(messagesDiv.querySelectorAll('.msg'));
+      if (!msgs.length) return;
+      const containerRect = messagesDiv.getBoundingClientRect();
+      const containerCenter = containerRect.top + messagesDiv.clientHeight / 2;
+  
+      let closest = null;
+      let minDist = Infinity;
+      msgs.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const elCenter = rect.top + rect.height / 2;
+        const dist = Math.abs(elCenter - containerCenter);
+        if (dist < minDist) {
+          minDist = dist;
+          closest = el;
+        }
+      });
+  
+      if (closest && closest.dataset.ts) {
+        localStorage.setItem('last_view_timestamp', closest.dataset.ts);
+      }
+    }
+  
+    // save on unload / visibility change
+    window.addEventListener('beforeunload', saveCurrentViewedTimestamp);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') saveCurrentViewedTimestamp();
+    });
+  
   </script>
+  
 </body>
 </html>
