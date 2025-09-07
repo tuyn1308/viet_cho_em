@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <title>Hmm...</title>
@@ -14,6 +15,7 @@
       align-items: center;
       height: 100vh;
     }
+
     h2 {
       margin: 20px;
       color: #2e7d32;
@@ -25,14 +27,16 @@
       flex: 1;
       width: 100%;
       max-width: 500px;
-      display: none; /* ẩn cho đến khi login */
+      display: none;
+      /* ẩn cho đến khi login */
       flex-direction: column;
       border-radius: 25px;
       background: #ffffff;
       overflow: hidden;
       margin: 10px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     }
+
     .messages {
       flex: 1;
       padding: 20px;
@@ -42,6 +46,7 @@
       gap: 12px;
       background: #f9fdf9;
     }
+
     .msg {
       max-width: 75%;
       padding: 12px 16px;
@@ -49,27 +54,31 @@
       word-wrap: break-word;
       font-size: 14px;
       line-height: 1.4;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       position: relative;
     }
+
     .msg.user {
       align-self: flex-end;
       background: #66bb6a;
       color: #fff;
       border-bottom-right-radius: 4px;
     }
+
     .msg.bot {
       align-self: flex-start;
       background: #e0f2f1;
       color: #333;
       border-bottom-left-radius: 4px;
     }
+
     .msg strong {
       font-size: 13px;
       display: block;
       margin-bottom: 3px;
       opacity: 0.9;
     }
+
     .msg small {
       display: block;
       font-size: 11px;
@@ -87,6 +96,7 @@
       padding: 10px;
       gap: 8px;
     }
+
     .input-area input {
       flex: 1;
       border: 1px solid #ccc;
@@ -96,10 +106,12 @@
       outline: none;
       transition: 0.2s;
     }
+
     .input-area input:focus {
       border-color: #81c784;
-      box-shadow: 0 0 0 3px rgba(129,199,132,0.3);
+      box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.3);
     }
+
     .input-area button {
       background: #4caf50;
       border: none;
@@ -109,8 +121,9 @@
       font-weight: bold;
       border-radius: 25px;
       transition: 0.2s;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
     }
+
     .input-area button:hover {
       background: #43a047;
       transform: translateY(-1px);
@@ -122,14 +135,16 @@
       padding: 25px;
       border-radius: 20px;
       background: #ffffff;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       text-align: center;
       width: 280px;
     }
+
     .login-container h3 {
       margin-bottom: 15px;
       color: #2e7d32;
     }
+
     .login-container input {
       display: block;
       margin: 10px auto;
@@ -140,10 +155,12 @@
       outline: none;
       transition: 0.2s;
     }
+
     .login-container input:focus {
       border-color: #81c784;
-      box-shadow: 0 0 0 3px rgba(129,199,132,0.3);
+      box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.3);
     }
+
     .login-container button {
       margin-top: 10px;
       padding: 12px 25px;
@@ -154,27 +171,34 @@
       cursor: pointer;
       font-size: 15px;
       transition: 0.2s;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
     }
+
     .login-container button:hover {
       background: #43a047;
       transform: translateY(-1px);
     }
 
-      /* Spinner */
-  .spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #4caf50;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    animation: spin 1s linear infinite;
-    margin: 20px auto;
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+    /* Spinner */
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #4caf50;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
 
     @media (max-width: 600px) {
       .chat-container {
@@ -182,6 +206,7 @@
         border-radius: 0;
         height: 95%;
       }
+
       .login-container {
         margin-top: 50px;
         width: 90%;
@@ -202,15 +227,24 @@
       border-radius: 20px;
       cursor: pointer;
       font-size: 13px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
       animation: slideUp 0.3s ease;
     }
+
     #newMsgNotice:hover {
       background: #2e7d32;
     }
+
     @keyframes slideUp {
-      from { transform: translate(-50%, 20px); opacity: 0; }
-      to   { transform: translate(-50%, 0); opacity: 1; }
+      from {
+        transform: translate(-50%, 20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
     }
 
     .separator {
@@ -221,6 +255,7 @@
       margin: 15px 0;
       position: relative;
     }
+
     .separator::before,
     .separator::after {
       content: "";
@@ -230,18 +265,21 @@
       height: 1px;
       background: #ccc;
     }
+
     .separator::before {
       left: 0;
     }
+
     .separator::after {
       right: 0;
     }
+
     #imgModalContent {
       transition: transform 0.3s ease;
     }
-    
   </style>
 </head>
+
 <body>
   <h2>🌿</h2>
 
@@ -261,7 +299,7 @@
       <input type="text" id="msgInput" placeholder="Nhập tin nhắn...">
       <button onclick="sendMessage()">Gửi</button>
     </div>
-  </div>    
+  </div>
   <!-- Modal xem ảnh -->
   <div id="imgModal" style="
     display:none; position:fixed; z-index:1000;
@@ -282,83 +320,88 @@
     const BOT_TOKEN = "8157868741:AAFKOinuWBa2l9Z2MgGX-kY4Ujiw-OhwR74";
     const CHAT_ID = "5178075273";
     const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
-    const SHEET_API = "https://script.google.com/macros/s/AKfycbzGFA_b49j4H_mzRNZ4hxud-HpHG3Mzc0Tq5mk1yJxOzb9SltePp8Go-zvtce9CILZ6/exec"
-  
+    const SHEET_API = "https://script.google.com/macros/s/AKfycbx75XLqN02FubF7NSnMRVkEjGryrB1YIPjfkc4v1-Tvl5WJ8uR0CgDbWBdpsrad9PNA/exec"
+
     const messagesDiv = document.getElementById("messages");
     const msgInput = document.getElementById("msgInput");
     const loginBox = document.getElementById("loginBox");
     const chatBox = document.getElementById("chatBox");
-  
+
     let visitorIP = null;
     let username = null;
-  
-// hàm tạo separator
-function addSeparator(text) {
-  const div = document.createElement("div");
-  div.className = "separator";
-  div.textContent = text;
-  messagesDiv.appendChild(div);
-}
 
-// xử lý tin nhắn nhiều loại (text / ảnh / audio / video)
-// Hàm detect link trong text
-function extractLink(text) {
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
-  const match = text.match(urlRegex);
-  return match ? match[0] : null;
-}
+    // hàm tạo separator
+    function addSeparator(text) {
+      const div = document.createElement("div");
+      div.className = "separator";
+      div.textContent = text;
+      messagesDiv.appendChild(div);
+    }
 
-async function fetchLinkPreview(url) {
-  try {
-    const res = await fetch(`${SHEET_API}?url=${encodeURIComponent(url)}`);
-    if (!res.ok) return null;
-    return await res.json(); // {title, description, image, url}
-  } catch (e) {
-    console.error("Preview error:", e);
-    return null;
-  }
-}
+    // xử lý tin nhắn nhiều loại (text / ảnh / audio / video)
+    // Hàm detect link trong text
+    function extractLink(text) {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      const match = text.match(urlRegex);
+      return match ? match[0] : null;
+    }
 
-// Hàm addMessage (sửa chỗ else cuối)
-async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
-  const div = document.createElement("div");
-  div.className = "msg " + sender;
-  const tsMs = (new Date(rawTimestamp)).getTime() || Date.now();
-  div.dataset.ts = String(tsMs);
+    async function fetchLinkPreview(url) {
+      try {
+        const res = await fetch(`${SHEET_API}?url=${encodeURIComponent(url)}`);
+        if (!res.ok) return null;
+        return await res.json(); // {title, description, image, url}
+      } catch (e) {
+        console.error("Preview error:", e);
+        return null;
+      }
+    }
 
-  // Header (user + time)
-  const header = document.createElement("div");
-  header.innerHTML = `<strong>${user}</strong>`;
+    // Hàm addMessage (sửa chỗ else cuối)
+    async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
+      const div = document.createElement("div");
+      div.className = "msg " + sender;
+      const tsMs = (new Date(rawTimestamp)).getTime() || Date.now();
+      div.dataset.ts = String(tsMs);
 
-  // Nội dung chính (text, ảnh, audio, video, link)
-  const body = document.createElement("div");
+      // Header (user + time)
+      const header = document.createElement("div");
+      header.innerHTML = `<strong>${user}</strong>`;
 
-  if (typeof text === "string") {
-    if (text.startsWith("IMG_URL:")) {
-      const imgUrl = text.replace("IMG_URL:", "");
-      body.innerHTML = `<img src="${imgUrl}" style="max-width:200px; border-radius:10px; display:block; margin-top:5px;">`;
-    } else if (text.startsWith("AUDIO_URL:")) {
-      const audioUrl = text.replace("AUDIO_URL:", "");
-      body.innerHTML = `<audio controls style="margin-top:5px; max-width:100%;"><source src="${audioUrl}"></audio>`;
-    } else if (text.startsWith("VIDEO_URL:")) {
-      const videoUrl = text.replace("VIDEO_URL:", "");
-      body.innerHTML = `
+      // Nội dung chính (text, ảnh, audio, video, link)
+      const body = document.createElement("div");
+
+      if (typeof text === "string") {
+        if (text.startsWith("IMG_URL:")) {
+          const imgUrl = text.replace("IMG_URL:", "");
+          body.innerHTML = `<img src="${imgUrl}" style="max-width:200px; border-radius:10px; display:block; margin-top:5px;">`;
+        } else if (text.startsWith("AUDIO_URL:")) {
+          const audioUrl = text.replace("AUDIO_URL:", "");
+          body.innerHTML = `<audio controls style="margin-top:5px; max-width:100%;"><source src="${audioUrl}"></audio>`;
+        } else if (text.startsWith("VIDEO_URL:")) {
+          const videoUrl = text.replace("VIDEO_URL:", "");
+          body.innerHTML = `
         <div style="margin-top:5px; max-width:250px;">
           <video controls playsinline preload="metadata" style="width:100%; border-radius:10px; background:#000;">
             <source src="${videoUrl}" type="video/mp4">
             Trình duyệt của bạn không hỗ trợ video.
           </video>
         </div>`;
-    } else {
-      const link = extractLink(text);
-      if (link) {
-        body.innerHTML = `<div><a href="${link}" target="_blank" style="color:green;font-weight:bold;">${link}</a></div>`;
+        } else {
+          const link = extractLink(text);
+          if (link) {
+            body.innerHTML = `<div><a href="${link}" target="_blank" style="color:green;font-weight:bold;">${link}</a></div>`;
 
-        // ✅ load preview async (append sau, không bị ghi đè)
-        fetchLinkPreview(link).then(preview => {
-          if (preview) {
-            const card = document.createElement("div");
-            card.style.cssText = `
+            // ✅ load preview async (append sau, không bị ghi đè)
+            fetchLinkPreview(link).then(preview => {
+               // ✂️ Giới hạn 100 ký tự
+    let desc = preview.description || "";
+    if (desc.length > 100) {
+      desc = desc.substring(0, 100) + "...";
+    }
+              if (preview) {
+                const card = document.createElement("div");
+                card.style.cssText = `
               border:1px solid #ddd;
               border-radius:12px;
               overflow:hidden;
@@ -366,63 +409,63 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
               background:#fafafa;
               cursor:pointer;
             `;
-            card.onclick = () => window.open(preview.url, "_blank");
+                card.onclick = () => window.open(preview.url, "_blank");
 
-            card.innerHTML = `
+                card.innerHTML = `
               ${preview.image ? `<img src="${preview.image}" style="width:100%;max-height:160px;object-fit:cover;">` : ""}
               <div style="padding:10px;">
                 <div style="font-weight:bold;font-size:14px;margin-bottom:4px;color:#2e7d32;">${preview.title || link}</div>
-                <div style="font-size:12px;color:#555;">${preview.description || ""}</div>
+                <div style="font-size:12px;color:#555;">${desc || ""}</div>
               </div>
             `;
-            div.appendChild(card);
+                div.appendChild(card);
+              }
+            });
+          } else {
+            body.innerHTML = `<div>${text}</div>`;
           }
-        });
+        }
       } else {
-        body.innerHTML = `<div>${text}</div>`;
+        body.innerHTML = `<div>${JSON.stringify(text)}</div>`;
+      }
+
+      // Footer (time)
+      const footer = document.createElement("small");
+      footer.textContent = time;
+
+      // Gắn tất cả vào div chính
+      div.appendChild(header);
+      div.appendChild(body);
+      div.appendChild(footer);
+
+      messagesDiv.appendChild(div);
+
+      if (!auto) return;
+
+      const nearBottom =
+        messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - 50;
+
+      if (nearBottom) {
+        scrollToBottom();
+      } else {
+        document.getElementById("newMsgNotice").style.display = "block";
       }
     }
-  } else {
-    body.innerHTML = `<div>${JSON.stringify(text)}</div>`;
-  }
-
-  // Footer (time)
-  const footer = document.createElement("small");
-  footer.textContent = time;
-
-  // Gắn tất cả vào div chính
-  div.appendChild(header);
-  div.appendChild(body);
-  div.appendChild(footer);
-
-  messagesDiv.appendChild(div);
-
-  if (!auto) return;
-
-  const nearBottom =
-    messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - 50;
-
-  if (nearBottom) {
-    scrollToBottom();
-  } else {
-    document.getElementById("newMsgNotice").style.display = "block";
-  }
-}
 
     // Gửi tin nhắn
     async function sendMessage() {
       const text = msgInput.value.trim();
       if (!text) return;
       msgInput.value = "";
-  
+
       const now = new Date().toLocaleString("vi-VN");
       const rawNow = new Date().toISOString();
       addMessage(text, "user", now, username, rawNow);
-  
+
       // Gửi tới Telegram kèm IP
       const teleText = `[${username}] (${visitorIP}) 💬: ${text}`;
       await fetch(`${API_URL}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(teleText)}`);
-  
+
       // Tạo raw JSON giả như Telegram
       const fakePayload = {
         update_id: Date.now(),
@@ -441,11 +484,11 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
             username: username,
             type: "private"
           },
-          date: Math.floor(Date.now()/1000),
+          date: Math.floor(Date.now() / 1000),
           text: text
         }
       };
-  
+
       // Lưu vào Google Sheet
       await fetch(SHEET_API, {
         method: "POST",
@@ -455,18 +498,18 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
         body: JSON.stringify(fakePayload)
       });
     }
-  
+
     const newMsgNotice = document.getElementById("newMsgNotice");
-  
+
     function scrollToBottom() {
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
       newMsgNotice.style.display = "none";
     }
-  
+
     // Load lịch sử từ Google Sheet
     let firstLoad = true;
     let lastTimestamp = null; // nhớ tin nhắn cuối cùng đã có
-  
+
     let prevTs = null; // lưu timestamp tin nhắn trước
 
     async function loadMessages() {
@@ -479,19 +522,19 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
             </div>
           `;
         }
-    
+
         const res = await fetch(SHEET_API);
         const data = await res.json();
-    
+
         if (firstLoad) {
           messagesDiv.innerHTML = "";
           prevTs = null;
-    
+
           data.forEach(row => {
             const timestamp = new Date(row[0]);
             const user = row[1];
             const message = row[2];
-    
+
             // kiểm tra separator
             if (prevTs) {
               const prevDate = new Date(prevTs);
@@ -502,13 +545,13 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
               } else if (
                 timestamp - prevDate > 60 * 60 * 1000 // > 1h
               ) {
-                addSeparator(timestamp.toLocaleTimeString("vi-VN", {hour: "2-digit", minute: "2-digit"}));
+                addSeparator(timestamp.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" }));
               }
             } else {
               // separator ngày đầu tiên
               addSeparator(timestamp.toLocaleDateString("vi-VN"));
             }
-    
+
             addMessage(
               message,
               user === username ? "user" : "bot",
@@ -517,11 +560,11 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
               timestamp,
               false
             );
-    
+
             prevTs = timestamp;
             lastTimestamp = timestamp;
           });
-    
+
           // restore vị trí đọc
           const savedTs = localStorage.getItem("last_view_timestamp");
           if (savedTs) {
@@ -534,7 +577,7 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
           } else {
             scrollToBottom();
           }
-    
+
           firstLoad = false;
         } else {
           data.forEach(row => {
@@ -542,19 +585,19 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
             if (!lastTimestamp || timestamp > new Date(lastTimestamp)) {
               const user = row[1];
               const message = row[2];
-    
+
               // separator nếu sang ngày/giờ
               if (prevTs) {
                 const prevDate = new Date(prevTs);
                 if (timestamp.toDateString() !== prevDate.toDateString()) {
                   addSeparator(timestamp.toLocaleDateString("vi-VN"));
                 } else if (timestamp - prevDate > 60 * 60 * 1000) {
-                  addSeparator(timestamp.toLocaleTimeString("vi-VN", {hour: "2-digit", minute: "2-digit"}));
+                  addSeparator(timestamp.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" }));
                 }
               } else {
                 addSeparator(timestamp.toLocaleDateString("vi-VN"));
               }
-    
+
               addMessage(
                 message,
                 user === username ? "user" : "bot",
@@ -563,13 +606,13 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
                 timestamp,
                 true
               );
-    
+
               prevTs = timestamp;
               lastTimestamp = timestamp;
             }
           });
         }
-    
+
         if (lastTimestamp) {
           localStorage.setItem("last_available_timestamp", (new Date(lastTimestamp)).getTime());
         }
@@ -598,7 +641,7 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
       });
       return closest;
     }
-  
+
     // cuộn sao cho tin nhắn target nằm ở giữa vùng hiển thị
     function scrollMessageIntoView(el) {
       if (!el) return;
@@ -606,7 +649,7 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
       messagesDiv.scrollTo({ top: Math.max(0, offset), behavior: "smooth" });
       newMsgNotice.style.display = "none";
     }
-  
+
     // Lấy IP client
     async function getIP() {
       try {
@@ -619,7 +662,7 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
         return "unknown";
       }
     }
-  
+
     // Gửi log IP lên Telegram (với fallback đọc localStorage nếu username không có)
     async function notifyAccess(ip, msg = "đang truy cập web") {
       let user = "unknown";
@@ -631,29 +674,29 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
           user = savedUser;
         }
       }
-  
+
       const text = `📢 ${user} ${msg}\n🌐 IP: ${ip}\n🕒 ${new Date().toLocaleString("vi-VN")}`;
       await fetch(`${API_URL}/sendMessage`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ chat_id: CHAT_ID, text })
       });
     }
-  
+
     // Khi người dùng mở web
     async function onVisitorEnter() {
       const ip = await getIP();
       notifyAccess(ip, "vừa vào web");
-  
+
       // Sau đó cứ 1 phút ping lại
       setInterval(() => {
         notifyAccess(ip, "vẫn đang online");
       }, 60000);
     }
-  
+
     // Gọi khi load trang
     onVisitorEnter();
-  
+
     // Login
     function login() {
       const inputUser = document.getElementById("username").value.trim();
@@ -664,15 +707,15 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
       }
       username = inputUser;
       localStorage.setItem("chat_username", username);
-  
+
       loginBox.style.display = "none";
       chatBox.style.display = "flex";
-  
+
       getIP();
       loadMessages();
       setInterval(loadMessages, 10000);
     }
-  
+
     // Prefill username nếu có
     window.onload = () => {
       const savedUser = localStorage.getItem("chat_username");
@@ -682,7 +725,7 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
         // username = savedUser;
       }
     };
-  
+
     // --- LƯU vị trí đọc hiện tại khi user cuộn (debounced) ---
     let saveTimer = null;
     messagesDiv.addEventListener('scroll', () => {
@@ -691,13 +734,13 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
         saveCurrentViewedTimestamp();
       }, 500); // lưu 500ms sau khi ngừng scroll
     });
-  
+
     function saveCurrentViewedTimestamp() {
       const msgs = Array.from(messagesDiv.querySelectorAll('.msg'));
       if (!msgs.length) return;
       const containerRect = messagesDiv.getBoundingClientRect();
       const containerCenter = containerRect.top + messagesDiv.clientHeight / 2;
-  
+
       let closest = null;
       let minDist = Infinity;
       msgs.forEach(el => {
@@ -709,166 +752,167 @@ async function addMessage(text, sender, time, user, rawTimestamp, auto = true) {
           closest = el;
         }
       });
-  
+
       if (closest && closest.dataset.ts) {
         localStorage.setItem('last_view_timestamp', closest.dataset.ts);
       }
     }
 
     // --- Xem ảnh full + Zoom + Drag ---
-const imgModal = document.getElementById("imgModal");
-const imgModalContent = document.getElementById("imgModalContent");
-const imgClose = document.getElementById("imgClose");
+    const imgModal = document.getElementById("imgModal");
+    const imgModalContent = document.getElementById("imgModalContent");
+    const imgClose = document.getElementById("imgClose");
 
-let scale = 1;
-let originX = 50, originY = 50;
-let isDragging = false;
-let startX = 0, startY = 0;
-let translateX = 0, translateY = 0;
+    let scale = 1;
+    let originX = 50, originY = 50;
+    let isDragging = false;
+    let startX = 0, startY = 0;
+    let translateX = 0, translateY = 0;
 
-// Hàm update transform
-function updateTransform() {
-  imgModalContent.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-  imgModalContent.style.transformOrigin = `${originX}% ${originY}%`;
-}
+    // Hàm update transform
+    function updateTransform() {
+      imgModalContent.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+      imgModalContent.style.transformOrigin = `${originX}% ${originY}%`;
+    }
 
-// Mở modal khi click ảnh trong chat
-messagesDiv.addEventListener("click", e => {
-  if (e.target.tagName === "IMG" && e.target.closest(".msg")) {
-    imgModalContent.src = e.target.src;
-    imgModal.style.display = "flex";
-    scale = 1;
-    translateX = 0;
-    translateY = 0;
-    updateTransform();
-  }
-});
+    // Mở modal khi click ảnh trong chat
+    messagesDiv.addEventListener("click", e => {
+      if (e.target.tagName === "IMG" && e.target.closest(".msg")) {
+        imgModalContent.src = e.target.src;
+        imgModal.style.display = "flex";
+        scale = 1;
+        translateX = 0;
+        translateY = 0;
+        updateTransform();
+      }
+    });
 
-// Đóng modal
-imgClose.onclick = () => closeModal();
-imgModal.onclick = e => { if (e.target === imgModal) closeModal(); };
+    // Đóng modal
+    imgClose.onclick = () => closeModal();
+    imgModal.onclick = e => { if (e.target === imgModal) closeModal(); };
 
-function closeModal() {
-  imgModal.style.display = "none";
-  imgModalContent.src = "";
-}
+    function closeModal() {
+      imgModal.style.display = "none";
+      imgModalContent.src = "";
+    }
 
-// --- Zoom bằng cuộn chuột ---
-imgModalContent.addEventListener("wheel", e => {
-  e.preventDefault();
-  const delta = e.deltaY > 0 ? -0.1 : 0.1;
-  scale = Math.min(Math.max(0.5, scale + delta), 5);
+    // --- Zoom bằng cuộn chuột ---
+    imgModalContent.addEventListener("wheel", e => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.1 : 0.1;
+      scale = Math.min(Math.max(0.5, scale + delta), 5);
 
-  const rect = imgModalContent.getBoundingClientRect();
-  originX = ((e.clientX - rect.left) / rect.width) * 100;
-  originY = ((e.clientY - rect.top) / rect.height) * 100;
+      const rect = imgModalContent.getBoundingClientRect();
+      originX = ((e.clientX - rect.left) / rect.width) * 100;
+      originY = ((e.clientY - rect.top) / rect.height) * 100;
 
-  updateTransform();
-}, { passive: false });
+      updateTransform();
+    }, { passive: false });
 
-// --- Zoom bằng pinch (mobile) ---
-let initialDistance = null;
-imgModalContent.addEventListener("touchstart", e => {
-  if (e.touches.length === 2) {
-    e.preventDefault();
-    const dx = e.touches[0].clientX - e.touches[1].clientX;
-    const dy = e.touches[0].clientY - e.touches[1].clientY;
-    initialDistance = Math.sqrt(dx*dx + dy*dy);
-  }
-}, { passive: false });
+    // --- Zoom bằng pinch (mobile) ---
+    let initialDistance = null;
+    imgModalContent.addEventListener("touchstart", e => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        initialDistance = Math.sqrt(dx * dx + dy * dy);
+      }
+    }, { passive: false });
 
-imgModalContent.addEventListener("touchmove", e => {
-  if (e.touches.length === 2 && initialDistance) {
-    e.preventDefault();
-    const dx = e.touches[0].clientX - e.touches[1].clientX;
-    const dy = e.touches[0].clientY - e.touches[1].clientY;
-    const newDistance = Math.sqrt(dx*dx + dy*dy);
-    const zoomFactor = newDistance / initialDistance;
+    imgModalContent.addEventListener("touchmove", e => {
+      if (e.touches.length === 2 && initialDistance) {
+        e.preventDefault();
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const newDistance = Math.sqrt(dx * dx + dy * dy);
+        const zoomFactor = newDistance / initialDistance;
 
-    scale = Math.min(Math.max(0.5, scale * zoomFactor), 5);
-    updateTransform();
+        scale = Math.min(Math.max(0.5, scale * zoomFactor), 5);
+        updateTransform();
 
-    initialDistance = newDistance;
-  }
-}, { passive: false });
+        initialDistance = newDistance;
+      }
+    }, { passive: false });
 
-imgModalContent.addEventListener("touchend", () => {
-  initialDistance = null;
-});
+    imgModalContent.addEventListener("touchend", () => {
+      initialDistance = null;
+    });
 
-// --- Drag (kéo ảnh) ---
-imgModalContent.addEventListener("mousedown", e => {
-  if (scale <= 1) return; // chỉ cho kéo khi zoom in
-  isDragging = true;
-  startX = e.clientX - translateX;
-  startY = e.clientY - translateY;
-  e.preventDefault();
-});
+    // --- Drag (kéo ảnh) ---
+    imgModalContent.addEventListener("mousedown", e => {
+      if (scale <= 1) return; // chỉ cho kéo khi zoom in
+      isDragging = true;
+      startX = e.clientX - translateX;
+      startY = e.clientY - translateY;
+      e.preventDefault();
+    });
 
-document.addEventListener("mousemove", e => {
-  if (!isDragging) return;
-  translateX = e.clientX - startX;
-  translateY = e.clientY - startY;
-  updateTransform();
-});
+    document.addEventListener("mousemove", e => {
+      if (!isDragging) return;
+      translateX = e.clientX - startX;
+      translateY = e.clientY - startY;
+      updateTransform();
+    });
 
-document.addEventListener("mouseup", () => {
-  isDragging = false;
-});
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+    });
 
-// --- Drag cho mobile (1 ngón tay) ---
-imgModalContent.addEventListener("touchstart", e => {
-  if (e.touches.length === 1 && scale > 1) {
-    isDragging = true;
-    startX = e.touches[0].clientX - translateX;
-    startY = e.touches[0].clientY - translateY;
-  }
-}, { passive: false });
+    // --- Drag cho mobile (1 ngón tay) ---
+    imgModalContent.addEventListener("touchstart", e => {
+      if (e.touches.length === 1 && scale > 1) {
+        isDragging = true;
+        startX = e.touches[0].clientX - translateX;
+        startY = e.touches[0].clientY - translateY;
+      }
+    }, { passive: false });
 
-imgModalContent.addEventListener("touchmove", e => {
-  if (isDragging && e.touches.length === 1) {
-    translateX = e.touches[0].clientX - startX;
-    translateY = e.touches[0].clientY - startY;
-    updateTransform();
-  }
-}, { passive: false });
+    imgModalContent.addEventListener("touchmove", e => {
+      if (isDragging && e.touches.length === 1) {
+        translateX = e.touches[0].clientX - startX;
+        translateY = e.touches[0].clientY - startY;
+        updateTransform();
+      }
+    }, { passive: false });
 
-imgModalContent.addEventListener("touchend", () => {
-  isDragging = false;
-});
-// --- Double click / double tap toggle zoom ---
-function toggleZoom() {
-  if (scale === 1) {
-    scale = 3; // phóng to 2x
-  } else {
-    scale = 1; // reset
-    translateX = 0;
-    translateY = 0;
-  }
-  updateTransform();
-}
+    imgModalContent.addEventListener("touchend", () => {
+      isDragging = false;
+    });
+    // --- Double click / double tap toggle zoom ---
+    function toggleZoom() {
+      if (scale === 1) {
+        scale = 3; // phóng to 2x
+      } else {
+        scale = 1; // reset
+        translateX = 0;
+        translateY = 0;
+      }
+      updateTransform();
+    }
 
-// Desktop double click
-imgModalContent.addEventListener("dblclick", toggleZoom);
+    // Desktop double click
+    imgModalContent.addEventListener("dblclick", toggleZoom);
 
-// Mobile double tap
-let lastTap = 0;
-imgModalContent.addEventListener("touchend", () => {
-  const now = Date.now();
-  if (now - lastTap < 300) { // trong vòng 300ms coi như double tap
-    toggleZoom();
-  }
-  lastTap = now;
-});
+    // Mobile double tap
+    let lastTap = 0;
+    imgModalContent.addEventListener("touchend", () => {
+      const now = Date.now();
+      if (now - lastTap < 300) { // trong vòng 300ms coi như double tap
+        toggleZoom();
+      }
+      lastTap = now;
+    });
 
-  
+
     // save on unload / visibility change
     window.addEventListener('beforeunload', saveCurrentViewedTimestamp);
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') saveCurrentViewedTimestamp();
     });
-  
+
   </script>
-  
+
 </body>
+
 </html>
